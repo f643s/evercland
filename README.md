@@ -2,7 +2,7 @@
 
 **a place in the dreams, in the terminal.**
 
-> Built with AI assitance, see [AI use](#ai-use)
+> Built with AI assistance, see [AI use](#ai-use)
 
 Evercland draws a small landscape into your terminal: a pond in the middle
 distance, trees around it, mountains behind, and a sky that changes with the hour
