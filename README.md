@@ -2,11 +2,13 @@
 
 **a place in the dreams, in the terminal.**
 
-A small pond, a ring of trees, mountains behind it, and a sky that moves with
-the hour and the season. Evercland draws all of that in half blocks, in
-truecolor, in whatever window you give it — and nothing else.
+Evercland draws a small landscape into your terminal: a pond in the middle
+distance, trees around it, mountains behind, and a sky that changes with the hour
+and the season. It's plain Python with no dependencies, and the whole picture is
+made of half blocks and 24-bit colour — those mountains are literally characters
+in your shell.
 
-No dependencies. Pure Python. One file in, one picture out.
+Here is the same corner of the world at noon, once in winter and once in summer:
 
 <table>
   <tr>
@@ -25,22 +27,23 @@ No dependencies. Pure Python. One file in, one picture out.
 
 ## install
 
-Run it straight from the checkout:
+You can run it right out of the checkout:
 
 ```
 ./evercland
 ```
 
-or install it:
+Or put it on your PATH, either with make or as a pacman package:
 
 ```
 sudo make install            # to /usr/local, set PREFIX= to change that
 makepkg -si                  # or as a pacman package, from this directory
 ```
 
-It wants Python 3 and a truecolor terminal — kitty, alacritty, foot, wezterm,
-anything modern. On a terminal that can't do 24-bit colour, it will look like a
-sad grey smear.
+All it asks for is Python 3 and a terminal that speaks truecolor — kitty,
+alacritty, foot, wezterm, most of the modern ones. On something older it will
+still run, but it comes out as a grey smear, so if the sky looks flat and the
+sun is a blob, that's usually why.
 
 ## use
 
@@ -68,15 +71,18 @@ evercland -S                    screensaver
   -h, --help            show this help
 ```
 
-In live mode the picture follows the window if you resize it. Press `q` to quit.
+In live mode the picture redraws itself to follow the window if you resize it, and
+`q` gets you out.
 
-Same seed, same size, same `-d` and `-e` gives the same picture — so when you
-find one you like, `-v` tells you the seed to get it back.
+Everything is deterministic. Same seed, same size, same `-d` and `-e`, same
+picture — so when one comes up that you like, `-v` prints the seed and you can ask
+for it again tomorrow.
 
 ## the seasons
 
-Every frame below is **seed 7**. Only the hour and the season change, so you can
-watch the palette do all the work.
+All sixteen frames below are **seed 7**, which means the mountains and the pond
+sit in the same place in every single one. Only the hour and the season change,
+and it's a pretty good way to see how much of the mood lives in the palette.
 
 <table>
   <tr>
@@ -116,17 +122,20 @@ watch the palette do all the work.
   </tr>
 </table>
 
-**spring** pink blossoms, flowers on the shore, drifting petals.
-**summer** deep green, hardly any snow, fireflies in the evening.
-**autumn** orange and red trees, leaves falling, big flocks of birds.
-**winter** snowy mountains, bare trees, snow on the pines, a half frozen pond, snowfall.
+- **spring** — pink blossoms, flowers along the shore, petals drifting off
+- **summer** — deep green, hardly any snow left, fireflies once it gets dark
+- **autumn** — orange and red, leaves coming down, big flocks of birds
+- **winter** — snow on the peaks and the pines, bare branches, a half frozen pond
 
-`auto` for the season goes by the calendar (northern hemisphere, sorry).
+`auto` works the season out from the calendar. Northern hemisphere only, sorry.
 
 ## it fits any window
 
-The same evening at three sizes. Everything is composed for the space it has —
-no cropping, no scrolling, just fewer and bigger pixels as the window shrinks.
+The landscape is built for whatever space it gets, rather than drawn once and
+cropped. A small window means fewer, chunkier pixels and a simpler scene; a big
+one fills in the same view with more detail.
+
+Here's one autumn evening at three sizes:
 
 <table>
   <tr>
@@ -137,7 +146,7 @@ no cropping, no scrolling, just fewer and bigger pixels as the window shrinks.
 </table>
 
 <details>
-<summary>the two smaller sizes, all sixteen frames</summary>
+<summary>the other two sizes, all sixteen frames</summary>
 <br>
 
 **86 × 25**
@@ -224,9 +233,10 @@ no cropping, no scrolling, just fewer and bigger pixels as the window shrinks.
 
 ## how it draws
 
-Each character is an upper half block (`▀`). The foreground colour is the top
-pixel, the background colour is the one under it, so every cell is two pixels
-tall and the picture is built out of cells instead of an image buffer.
+Every character it prints is an upper half block (`▀`). The foreground colour
+fills the top pixel, the background colour fills the bottom one, so a single cell
+carries two rows of the picture. That's the whole trick — no image buffer, no
+graphics protocol, just coloured text at the size your terminal already has.
 
 ```
 evercland              launcher
@@ -240,20 +250,22 @@ src/evercland/
   noise.py          value noise
 ```
 
-Everything is deterministic: value noise for the mountains, a seeded
-`random.Random` for placement, a palette function for the light. No sprites are
-stored, nothing is loaded from disk.
+The landscape comes out of value noise, with a seeded `random.Random` deciding
+where the trees and the shoreline land, and a palette deciding what colour the
+light is at that hour. Nothing is loaded from disk, and no two seeds give you the
+same pond.
 
 ## notes
 
-- A cell is usually a little taller than 2:1, so evercland reads the real pixel
-  size from the terminal to keep the sun round. If your terminal doesn't report
-  it (some multiplexers don't) use `-a 1.2` or thereabouts.
-- Big windows take a moment to build. A 300 × 170 pixel canvas is about half a
-  second.
-- The gallery images are the program's own output, cell for cell, scaled up with
-  nearest neighbour. No post-processing.
+- A terminal cell is usually a bit taller than 2:1, which would leave the sun
+  looking squashed. Evercland asks the terminal for its real pixel size and
+  corrects for it, but some multiplexers won't answer — if the sun looks off,
+  `-a 1.2` or thereabouts sorts it out by hand.
+- Big windows take a moment. A 300 × 170 canvas needs about half a second of
+  noise before the first frame shows up.
+- The pictures in this README are the program's own output, cell for cell, scaled
+  up with nearest neighbour and nothing else.
 
 ## license
 
-GPL-3.0-or-later. See [COPYING](COPYING).
+GPL-3.0-or-later. The full text is in [COPYING](COPYING).
