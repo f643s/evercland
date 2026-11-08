@@ -268,7 +268,7 @@ same pond.
 
 ## AI use
 
-I used an AI model for much of the code. The design, palete decisions and the testing were mine, and I've read through everything that's in the repo. 
+I used an AI model for much of the code (Claude). The design, palete decisions and the testing were mine, and I've read through everything that's in the repo. 
 If you find a bug or something that looks odd, open an issue and I'll try to fix it.
 
 ## license
