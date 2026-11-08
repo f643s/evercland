@@ -8,9 +8,18 @@ truecolor, in whatever window you give it — and nothing else.
 
 No dependencies. Pure Python. One file in, one picture out.
 
-![an autumn evening in evercland](assets/hero.webp)
+<table>
+  <tr>
+    <td align="center"><img src="assets/hero-winter.webp" width="358" alt="winter at noon, seed 1651"></td>
+    <td align="center"><img src="assets/hero-summer.webp" width="358" alt="summer at noon, seed 1651"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>winter</sub></td>
+    <td align="center"><sub>summer</sub></td>
+  </tr>
+</table>
 
-<sub>178 × 53 cells, seed 7, autumn, dusk.</sub>
+<sub>179 × 25 cells, seed 1651, noon. Same landscape, same hour, different season.</sub>
 
 ---
 
