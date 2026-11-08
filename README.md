@@ -2,6 +2,8 @@
 
 **a place in the dreams, in the terminal.**
 
+> Built with AI assitance, see [AI use](#ai-use)
+
 Evercland draws a small landscape into your terminal: a pond in the middle
 distance, trees around it, mountains behind, and a sky that changes with the hour
 and the season. It's plain Python with no dependencies, and the whole picture is
@@ -268,7 +270,7 @@ same pond.
 
 ## AI use
 
-I used an AI model for much of the code (Claude). The design, palete decisions and the testing were mine, and I've read through everything that's in the repo. 
+Much of the code was written by an AI model (Claude). The design, palette decisions and the testing were mine, and I've read through everything that's in the repo. 
 If you find a bug or something that looks odd, open an issue and I'll try to fix it.
 
 ## license
