@@ -1,4 +1,4 @@
-"""Command line handling and the live loop."""
+# Command line handling and the live loop.
 
 import argparse
 import random
@@ -68,7 +68,7 @@ def parse_args(argv):
     return p.parse_args(argv)
 
 
-# -- picking what to draw ----------------------------------------------
+# -- picking what to draw
 
 def auto_daytime():
     hour = time.localtime().tm_hour

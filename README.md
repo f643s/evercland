@@ -5,8 +5,7 @@
 Evercland draws a small landscape into your terminal: a pond in the middle
 distance, trees around it, mountains behind, and a sky that changes with the hour
 and the season. It's plain Python with no dependencies, and the whole picture is
-made of half blocks and 24-bit colour — those mountains are literally characters
-in your shell.
+made of half blocks and 24-bit colour.
 
 Here is the same corner of the world at noon, once in winter and once in summer:
 
@@ -40,7 +39,7 @@ sudo make install            # to /usr/local, set PREFIX= to change that
 makepkg -si                  # or as a pacman package, from this directory
 ```
 
-Not on the AUR yet — new account registration is paused at the moment, so
+Not on the AUR yet, new account registration is paused at the moment, so
 building from a checkout is the way for now.
 
 All it asks for is Python 3 and a terminal that speaks truecolor — kitty,
@@ -78,7 +77,7 @@ In live mode the picture redraws itself to follow the window if you resize it, a
 `q` gets you out.
 
 Everything is deterministic. Same seed, same size, same `-d` and `-e`, same
-picture — so when one comes up that you like, `-v` prints the seed and you can ask
+picture, so when one comes up that you like, `-v` prints the seed and you can ask
 for it again tomorrow.
 
 ## the seasons
@@ -122,6 +121,7 @@ and it's a pretty good way to see how much of the mood lives in the palette.
     <td><img src="assets/178x53/winter-day.webp" width="178" alt="winter in the day"></td>
     <td><img src="assets/178x53/winter-dusk.webp" width="178" alt="winter at dusk"></td>
     <td><img src="assets/178x53/winter-night.webp" width="178" alt="winter at night"></td>
+
   </tr>
 </table>
 
@@ -142,9 +142,9 @@ Here's one autumn evening at three sizes:
 
 <table>
   <tr>
-    <td align="center"><img src="assets/178x53/autumn-dusk.webp" width="356" alt="autumn dusk at 178 by 53"><br><sub>178 × 53</sub></td>
-    <td align="center"><img src="assets/86x25/autumn-dusk.webp" width="344" alt="autumn dusk at 86 by 25"><br><sub>86 × 25</sub></td>
-    <td align="center"><img src="assets/40x11/autumn-dusk.webp" width="320" alt="autumn dusk at 40 by 11"><br><sub>40 × 11</sub></td>
+    <td align="center"><img src="assets/178x53/autumn-dusk.webp" width="356" alt="autumn dusk at 178 by 53"><br><sub>178 x 53</sub></td>
+    <td align="center"><img src="assets/86x25/autumn-dusk.webp" width="344" alt="autumn dusk at 86 by 25"><br><sub>86 x 25</sub></td>
+    <td align="center"><img src="assets/40x11/autumn-dusk.webp" width="320" alt="autumn dusk at 40 by 11"><br><sub>40 x 11</sub></td>
   </tr>
 </table>
 
@@ -236,10 +236,7 @@ Here's one autumn evening at three sizes:
 
 ## how it draws
 
-Every character it prints is an upper half block (`▀`). The foreground colour
-fills the top pixel, the background colour fills the bottom one, so a single cell
-carries two rows of the picture. That's the whole trick — no image buffer, no
-graphics protocol, just coloured text at the size your terminal already has.
+Every character it prints is an upper half block (▀). The foreground colour fills the top pixel, the background colour fills the bottom one, so a single cell carries two rows of the picture.
 
 ```
 evercland              launcher
@@ -262,13 +259,19 @@ same pond.
 
 - A terminal cell is usually a bit taller than 2:1, which would leave the sun
   looking squashed. Evercland asks the terminal for its real pixel size and
-  corrects for it, but some multiplexers won't answer — if the sun looks off,
+  corrects for it, but some multiplexers won't answer, if the sun looks off,
   `-a 1.2` or thereabouts sorts it out by hand.
-- Big windows take a moment. A 300 × 170 canvas needs about half a second of
+- Big windows take a moment. A 300 x 170 canvas needs about half a second of
   noise before the first frame shows up.
 - The pictures in this README are the program's own output, cell for cell, scaled
   up with nearest neighbour and nothing else.
 
+## AI use
+
+I used an AI model for much of the code. The design, palete decisions and the testing were mine, and I've read through everything that's in the repo. 
+If you find a bug or something that looks odd, open an issue and I'll try to fix it.
+
 ## license
 
 GPL-3.0-or-later. The full text is in [COPYING](COPYING).
+
