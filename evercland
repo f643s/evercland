@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+"""Launcher. Works straight from a checkout (../src) and once installed
+(../lib/evercland)."""
+import os
+import sys
+
+here = os.path.dirname(os.path.realpath(__file__))
+for rel in ("src", "../lib/evercland"):
+    path = os.path.join(here, rel)
+    if os.path.isdir(os.path.join(path, "evercland")):
+        sys.path.insert(0, path)
+        break
+
+from evercland.cli import main  # noqa: E402
+
+sys.exit(main())
