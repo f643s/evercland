@@ -40,6 +40,9 @@ sudo make install            # to /usr/local, set PREFIX= to change that
 makepkg -si                  # or as a pacman package, from this directory
 ```
 
+Not on the AUR yet — new account registration is paused at the moment, so
+building from a checkout is the way for now.
+
 All it asks for is Python 3 and a terminal that speaks truecolor — kitty,
 alacritty, foot, wezterm, most of the modern ones. On something older it will
 still run, but it comes out as a grey smear, so if the sky looks flat and the
