@@ -25,6 +25,10 @@ SUN_ELEVATION = {"day": .9, "dawn": .22, "dusk": .22, "night": .55}
 
 FOOTHILLS = 2
 
+# How tall the forest band along the lake is. 1.0 is the tall version, smaller
+# means a shorter forest and bigger-looking mountains.
+FOREST_HEIGHT = .55
+
 
 def moving_average(values, radius):
     sums = [0.0]
@@ -252,9 +256,9 @@ class Scene:
         forest = tint(FOREST[self.tod], self.sea["forest"])
 
         for j in range(FOOTHILLS):            # 0 = far ridge, 1 = near ridge
-            amp = h * (.07 - .025 * j)
-            follow = .09 - .045 * j
-            base = h * .02 * (1 - j)
+            amp = h * (.07 - .025 * j) * FOREST_HEIGHT
+            follow = (.09 - .045 * j) * FOREST_HEIGHT
+            base = h * .02 * (1 - j) * FOREST_HEIGHT
             freq = (.018 + .012 * j) * self.nx
             offset = self.rng.uniform(0, 900)
             if j == 0:
@@ -266,7 +270,7 @@ class Scene:
             for x in range(w):
                 n = noise.fbm1(x * freq + offset, 5)
                 height = (amp * (.25 + .75 * n)
-                          + self.unit * .7 * noise.n1(x * 1.1 * self.nx + offset)
+                          + self.unit * .7 * FOREST_HEIGHT * noise.n1(x * 1.1 * self.nx + offset)
                           + follow * smoothed[x])
                 crest.append(hz - base - height)
 
@@ -302,7 +306,7 @@ class Scene:
         leaves = [self._lit(c) for c in self.sea["leaves"]]
         snow = self._snow_colour() if self.winter else None
 
-        tree_h = self.unit * (1.8 if j == 0 else 2.8)
+        tree_h = self.unit * (1.8 if j == 0 else 2.8) * (.5 + .5 * FOREST_HEIGHT)
         gap = max(2.0, tree_h * .6)
         rows = max(1, int(deepest * .9 / gap))
 
@@ -357,7 +361,7 @@ class Scene:
         while x < w:
             xi = int(min(w - 1, x))
             clump = self.noise.fbm1(xi * .3 * self.nx + 40, 3)
-            tall = max(2, int((1.5 + 3.0 * clump) * self.unit * rng.uniform(.8, 1.2)))
+            tall = max(2, int((1.2 + 2.2 * clump) * self.unit * rng.uniform(.8, 1.2)))
             side = 1 if self.light_dir[xi] >= 0 else -1
             trees.pine(self.land, x, hz - 1, tall, scale(col, .8), col, side)
             x += max(1.0, self.unit * 1.2 * rng.uniform(.7, 1.3))

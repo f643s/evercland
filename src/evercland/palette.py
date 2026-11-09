@@ -75,7 +75,7 @@ SEASON = {
     "winter": dict(
         forest=(.85, .95, 1.05),
         leaves=[],
-        ground=((225, 235, 250), .55),
+        ground=((225, 235, 250), .7),
         snow=.34, cloud=.48,
         haze=((175, 190, 210), .2),
         falling="snow", broadleaf=.3, birds=(0, 0, 0, 2)),
