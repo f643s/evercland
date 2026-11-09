@@ -252,8 +252,8 @@ class Scene:
         forest = tint(FOREST[self.tod], self.sea["forest"])
 
         for j in range(FOOTHILLS):            # 0 = far ridge, 1 = near ridge
-            amp = h * (.09 - .03 * j)
-            follow = .12 - .06 * j
+            amp = h * (.07 - .025 * j)
+            follow = .09 - .045 * j
             base = h * .02 * (1 - j)
             freq = (.018 + .012 * j) * self.nx
             offset = self.rng.uniform(0, 900)
@@ -357,7 +357,7 @@ class Scene:
         while x < w:
             xi = int(min(w - 1, x))
             clump = self.noise.fbm1(xi * .3 * self.nx + 40, 3)
-            tall = max(2, int((1.8 + 3.5 * clump) * self.unit * rng.uniform(.8, 1.2)))
+            tall = max(2, int((1.5 + 3.0 * clump) * self.unit * rng.uniform(.8, 1.2)))
             side = 1 if self.light_dir[xi] >= 0 else -1
             trees.pine(self.land, x, hz - 1, tall, scale(col, .8), col, side)
             x += max(1.0, self.unit * 1.2 * rng.uniform(.7, 1.3))
@@ -593,27 +593,27 @@ class Scene:
         if not self.birds:
             return
         w, h = self.w, self.h
-        colour = mix(self.pal["land"], (0, 0, 0), .4)
+        ink = mix(self.pal["land"], (0, 0, 0), .45)
         span = self.bird_span
-        radius = max(.55, h / 150)
         lift = max(2.0, span * .6)
-        steps = int(span * 4) + 2
+        steps = int(span * 3) + 3
         for bx, by, speed, phase in self.birds:
             cx = (bx + t * speed) % w
             cy = by + math.sin(t * .8 + phase) * span * .4
-            flap = math.sin(t * 6 + phase)
-            for sign in (-1, 1):
-                for i in range(steps + 1):
-                    u = i / steps
-                    x = cx + sign * span * u
-                    y = cy - lift * flap * u + lift * .5 * u * u
-                    for px in range(int(x - radius - 1), int(x + radius + 2)):
-                        for py in range(int(y - radius - 1), int(y + radius + 2)):
-                            if 0 <= px < w and 0 <= py < h:
-                                d = math.hypot(px - x, (py - y) * self.aspect)
-                                a = clamp(radius + .5 - d)
-                                if a > 0:
-                                    buf[py][px] = mix(buf[py][px], colour, a)
+            up = (math.sin(t * 6 + phase) + 1) / 2        # 0 = wings down, 1 = wings up
+            # each wing is body -> elbow -> tip. Wings up makes a V, down makes
+            # a roof with drooping tips, in between it's the flat gull shape.
+            elbow = (span * .5, -lift * (.5 + .4 * up))
+            tip = (span, lift * (.6 - 1.7 * up))
+            points = [(0, 0), elbow, tip]
+            for side in (-1, 1):
+                for (x0, y0), (x1, y1) in zip(points, points[1:]):
+                    for i in range(steps + 1):
+                        u = i / steps
+                        px = int(round(cx + side * (x0 + (x1 - x0) * u)))
+                        py = int(round(cy + y0 + (y1 - y0) * u))
+                        if 0 <= px < w and 0 <= py < h:
+                            buf[py][px] = mix(buf[py][px], ink, .9)
 
     def _draw_fireflies(self, buf, t):
         for x0, y0, phase in self.flies:
